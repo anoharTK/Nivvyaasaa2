@@ -1,163 +1,379 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nivvayasa – About</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nivvayasa — About</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- GOOGLE FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- BOOTSTRAP 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            background: #000;
-            color: #fff;
-            font-family: "Poppins", sans-serif;
-        }
+  <!-- ICONS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-        /* NAVBAR */
-        .navbar {
-            background: #0c0c0c !important;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-        }
-        .navbar-nav .nav-link {
-            color: #e0e0e0 !important;
-            font-weight: 500;
-            padding: 8px 18px;
-            transition: 0.3s;
-        }
-        .navbar-nav .nav-link:hover {
-            color: #ffd700 !important;
-        }
-        .navbar-nav .active {
-            color: #ffd700 !important;
-            font-weight: 600;
-        }
+  <style>
+    :root{
+      --navy:#08122a;
+      --gold:#c19d56;
+      --gold-2:#d4af37;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.06);
+      --radius:14px;
+      --content-max:1100px;
+    }
 
-        /* SECTION TITLE */
-        .section-title {
-            text-align: center;
-            color: #ffd700;
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-        }
+    *{box-sizing:border-box}
+    body{
+      font-family: 'Poppins', sans-serif;
+      background:#fbfbfd;
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      margin:0;
+    }
 
-        /* ABOUT SECTION */
-        .about-section {
-            padding: 60px 20px;
-            background: #000;
-        }
+    /* TOP BAR */
+    .top-bar{
+      background: linear-gradient(90deg,var(--navy), #071126);
+      color:#fff;
+      padding:10px 0;
+      font-size:13px;
+    }
+    .top-bar a{color:var(--gold-2); text-decoration:none}
+    .top-bar .top-item{display:flex; align-items:center; gap:.75rem; justify-content:center}
+    .top-bar .icon-wrap{width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.03);display:inline-grid;place-items:center}
 
-        .about-card {
-            background: rgba(20, 20, 20, 0.85);
-            border-radius: 16px;
-            padding: 25px;
-            border: 1px solid rgba(255, 215, 0, 0.18);
-            box-shadow: 0px 0px 18px rgba(255, 215, 0, 0.1);
-            transition: 0.4s;
-            backdrop-filter: blur(6px);
-        }
+    /* HEADER / NAV */
+    header.navbar-top{
+      position:sticky; top:0; z-index:1030;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(8,18,42,0.86), rgba(8,18,42,0.70));
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .brand { font-weight:700; letter-spacing:2px; color:#fff; font-size:20px; }
+    .nav-link { color: rgba(255,255,255,0.9) !important; text-transform:uppercase; font-weight:600; font-size:13px; }
+    .nav-link:hover{ color: var(--gold-2) !important; }
+    .btn-ghost {
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.08);
+      padding:.55rem .9rem; font-weight:600; color:#fff;
+      background:transparent; transition:all .25s;
+    }
+    .btn-ghost:hover{ background: rgba(255,255,255,0.03); color:var(--gold-2); border-color: rgba(212,175,55,0.2) }
 
-        .about-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0px 0px 25px rgba(255, 215, 0, 0.25);
-            border-color: #ffd700;
-        }
+    /* HERO */
+    .about-hero{
+      position:relative;
+      min-height:44vh;
+      display:flex;
+      align-items:center;
+      color:#fff;
+      background-image: url('images/about-bg.jpg');
+      background-size:cover;
+      background-position:center;
+    }
+    .about-hero::after{
+      content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(2,6,23,0.55), rgba(2,6,23,0.35));
+    }
+    .about-hero .hero-inner{ position:relative; z-index:2; padding:72px 0; width:100%; }
 
-        /* IMAGE STYLING */
-        .about-img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 215, 0, 0.25);
-            box-shadow: 0px 0px 12px rgba(255, 215, 0, 0.15);
-        }
+    .about-hero h1{ font-size:36px; font-weight:800; margin:0; letter-spacing:.4px; color:#fff; }
+    .about-hero p.lead{ color:rgba(255,255,255,0.9); margin-top:.6rem; max-width:820px; }
 
-        /* FADE IN ANIMATION */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(25px);
-            animation: fadeUp 0.8s ease forwards;
-        }
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+    /* MAIN CONTENT WRAPPER */
+    .site-wrap{ max-width:var(--content-max); margin:0 auto; padding:48px 20px; }
+
+    /* ABOUT CARD */
+    .profile-card{
+      display:grid;
+      grid-template-columns: 300px 1fr;
+      gap:30px;
+      align-items:start;
+    }
+    @media (max-width:900px){ .profile-card{ grid-template-columns: 1fr; } }
+
+    .profile-photo{
+      width:100%;
+      max-width:300px;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:0 12px 40px rgba(2,6,23,0.08);
+      border:1px solid rgba(0,0,0,0.04);
+      background:#fff;
+    }
+    .profile-photo img{ display:block; width:100%; height:100%; object-fit:cover; }
+
+    .bio-card{
+      background: linear-gradient(180deg,#fff,#fbfbff);
+      padding:28px;
+      border-radius:14px;
+      box-shadow:0 14px 40px rgba(2,6,23,0.06);
+      border:1px solid rgba(0,0,0,0.04);
+    }
+    .bio-card h3{ color:var(--navy); margin-bottom:6px; }
+    .bio-card .role{ color:var(--gold); font-weight:700; margin-bottom:12px; display:inline-block; border-radius:10px; padding:6px 10px; background:linear-gradient(90deg, rgba(193,157,86,0.12), rgba(212,175,55,0.06)); }
+
+    .bio-card p{ color:#333; line-height:1.75; }
+
+    /* MISSION / VISION CARDS */
+    .cards-row{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:28px; }
+    @media (max-width:900px){ .cards-row{ grid-template-columns:1fr; } }
+    .mini-card{
+      background:#fff;
+      border-radius:12px;
+      padding:20px;
+      box-shadow:0 10px 30px rgba(2,6,23,0.05);
+      border:1px solid rgba(0,0,0,0.04);
+    }
+    .mini-card h5{ color:var(--navy); margin-bottom:6px; }
+    .mini-card p{ color:#555; margin-bottom:0; }
+
+    /* WHY CHOOSE US */
+    .why-choose{
+      margin-top:36px;
+      display:flex;
+      gap:18px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .why-choose .why-text{ max-width:64%; color:#333; }
+    @media (max-width:900px){ .why-choose .why-text{ max-width:100%; } }
+
+    .why-choose .card-ghost{
+      background: linear-gradient(180deg,#fff,#fbfbff);
+      padding:18px;
+      border-radius:12px;
+      border:1px solid rgba(0,0,0,0.04);
+      box-shadow:0 12px 30px rgba(2,6,23,0.06);
+    }
+
+    /* STATS */
+    .stats-row { margin-top:28px; display:flex; gap:18px; flex-wrap:wrap; }
+    .stat {
+      background:#fff; border-radius:12px; padding:14px 18px; min-width:150px;
+      box-shadow:0 10px 30px rgba(2,6,23,0.05); text-align:center; border:1px solid rgba(0,0,0,0.04);
+    }
+    .stat .num{ font-weight:800; font-size:1.45rem; color:var(--navy); }
+    .stat .label{ color:var(--muted); font-size:.9rem; margin-top:.25rem; }
+
+    /* TEAM PREVIEW */
+    .team-grid{ margin-top:36px; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
+    .team-card{
+      background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 10px 30px rgba(2,6,23,0.06); border:1px solid rgba(0,0,0,0.04);
+    }
+    .team-card img{ width:100%; height:240px; object-fit:cover; display:block; }
+    .team-card .tc-body{ padding:14px; text-align:center; }
+    .team-card h6{ margin:6px 0 0; color:var(--navy); }
+    .team-card .small-muted{ color:var(--muted); font-size:.9rem; }
+
+    /* FOOTER */
+    footer{ padding:2.5rem 0; color:var(--muted); font-size:.95rem; background:linear-gradient(180deg,#fff,#fbfbff); border-top:1px solid rgba(0,0,0,0.04); }
+
+    /* small helpers */
+    .muted { color:var(--muted); }
+    .gold { color:var(--gold); font-weight:700; }
+    .lead-muted { color:#555; }
+  </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <!-- TOP BAR -->
+  <div class="top-bar">
     <div class="container">
-        <a class="navbar-brand text-warning font-weight-bold" href="index.html">Nivvayasa</a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="menu">
-            <div class="navbar-nav ml-auto">
-                <a href="index.html" class="nav-item nav-link">Home</a>
-                <a href="about.html" class="nav-item nav-link active">About</a>
-                <a href="projects.html" class="nav-item nav-link">Projects</a>
-                <a href="team.html" class="nav-item nav-link">Team</a>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+      <div class="row gy-2 align-items-center">
+        <div class="col-md-4 text-center text-md-start">
+          <div class="top-item">
+            <div class="icon-wrap"><i class="fa fa-phone"></i></div>
+            <div>
+              <small style="opacity:.8;display:block">Call us</small>
+              <strong><a href="tel:+918197670731">+91 81976 70731</a></strong>
             </div>
+          </div>
         </div>
+        <div class="col-md-4 text-center">
+          <div class="top-item">
+            <div class="icon-wrap"><i class="fa fa-envelope"></i></div>
+            <div>
+              <small style="opacity:.8;display:block">Email</small>
+              <strong><a href="mailto:nivvyaasaa.developers@gmail.com">nivvyaasaa.developers@gmail.com</a></strong>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 text-center text-md-end">
+          <span class="brand">NIVVYAASAA</span>
+        </div>
+      </div>
     </div>
-</nav>
+  </div>
 
-<!-- ABOUT SECTION -->
-<section class="about-section">
-    <div class="container">
-        <h2 class="section-title fade-in">About Nivvayasa Developers & Builders</h2>
+  <!-- NAV -->
+  <header class="navbar-top">
+    <nav class="container navbar navbar-expand-lg">
+      <a class="navbar-brand text-white d-flex align-items-center gap-2" href="index.html">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-2));display:grid;place-items:center;color:#08122a;font-weight:800">N</div>
+        <div class="ms-2 brand">Nivvayasa</div>
+      </a>
 
-        <div class="row">
+      <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon" style="display:block;width:28px;height:2px;background:#fff;position:relative"></span>
+      </button>
 
-            <!-- IMAGE -->
-            <div class="col-md-6 mb-4 fade-in">
-                <img src="images/MCN.jpg" class="about-img" alt="Nivvayasa">
-            </div>
+      <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="team.html">Team</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item ms-3">
+            <a class="btn btn-ghost" href="contact.html">Enquire</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
 
-            <!-- TEXT -->
-            <div class="col-md-6 fade-in">
-                <div class="about-card">
-                    M. C. Narasimha Murty is a distinguished public servant who has dedicated his life to the service of the people of Karnataka. Serving the Government of Karnataka as a Tahsildar, he has played a vital role in implementing developmental initiatives and administrative reforms that have positively impacted countless citizens. Beyond his official duties, Mr. Murty is widely recognized for his philanthropic contributions and deep commitment to community welfare. His charitable works span across multiple sectors — from extending financial assistance to temples, schools, and orphanages to supporting individuals and families in need. His selfless service has drawn the attention of various media houses, leading to several television interviews that highlighted his inspiring humanitarian efforts. He was notably featured on Public TV’s program “Belaku,” where his initiative to rescue people from a rare illness in a remote village was commended as an extraordinary act of compassion and leadership. Under his guidance and support, significant developmental work was carried out at the historic Shivaganga Temple near Tumakuru, preserving its cultural and spiritual heritage for future generations. Through his integrity, dedication, and generosity, M. C. Narasimha Murty has earned deep respect across the state — not only as an able administrator but also as a shining example of humanity and service.</p>
-            </div>
+  <!-- HERO -->
+  <section class="about-hero">
+    <div class="container hero-inner">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1>About Nivvayasa Developers & Builders</h1>
+          <p class="lead">Founded to deliver trusted, well-planned residential communities across Karnataka — where transparency, quality and customer-first delivery matter.</p>
         </div>
-
-        <div class="row mt-4">
-
-            <!-- SECOND IMAGE -->
-            <div class="col-md-6 mb-4 fade-in">
-                <img src="images/Logo.jpg" class="about-img" alt="Nivvayasa Project">
-            </div>
-
-            <!-- SECOND TEXT -->
-            <div class="col-md-6 fade-in">
-                <div class="about-card">
-                    Nivvyasaa Developers & Builders was established in 2023 with a vision to create value-driven residential communities across Karnataka. From the beginning, the company has focused on trust, transparency, and quality as its core pillars. Nivvyasaa successfully launched its pilot residential project in Bangalore Rural, Nelamangala, developed across more than 12 acres of converted land in Sondekoppa. The project received an overwhelming response, with every plot sold out in record time. This achievement strengthened the company’s commitment to delivering well-planned, legally clear, and customer-centric layouts. Building on this success, Nivvyasaa is currently running multiple residential projects across the state. Among them, the ongoing project in Sira has gained exceptional demand, with bookings moving rapidly. The company’s growing customer base reflects its consistent delivery of trust and quality. Nivvyasaa aims to provide affordable yet premium living spaces for families seeking secure investment and long-term value. Each project is backed by proper documentation, clear titles, and well-designed infrastructure. With a young and energetic team, Nivvyasaa continues to expand its footprint across Karnataka’s real-estate landscape. The company remains dedicated to turning land into thriving communities while ensuring satisfaction for every customer who becomes part of the Nivvyasaa family.
-                </div>
-            </div>
-        </div>
-
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- MAIN CONTENT -->
+  <div class="site-wrap">
 
+    <!-- PROFILE + BIO -->
+    <div class="profile-card">
+      <div class="profile-photo">
+        <!-- placeholder: replace with your profile image -->
+        <img src="images/MCN.jpg" alt="M. C. Narasimha Murty">
+      </div>
+
+      <div class="bio-card">
+        <h3>M. C. Narasimha Murthy</h3>
+        <div class="role">Chairman</div>
+
+        <p>
+          M. C. Narasimha Murty is a distinguished public servant who has dedicated his life to the service of the people of Karnataka. Serving the Government of Karnataka as a Tahsildar, he has played a vital role in implementing developmental initiatives and administrative reforms that have positively impacted countless citizens. Beyond his official duties, Mr. Murty is widely recognized for his philanthropic contributions and deep commitment to community welfare. His charitable works span across multiple sectors — from extending financial assistance to temples, schools, and orphanages to supporting individuals and families in need.
+        </p>
+
+        <p>
+          His selfless service has drawn the attention of various media houses, leading to several television interviews that highlighted his inspiring humanitarian efforts. He was notably featured on Public TV’s program “Belaku,” where his initiative to rescue people from a rare illness in a remote village was commended as an extraordinary act of compassion and leadership. Under his guidance and support, significant developmental work was carried out at the historic Shivaganga Temple near Tumakuru, preserving its cultural and spiritual heritage for future generations.
+        </p>
+
+        <p>
+          Through his integrity, dedication, and generosity, M. C. Narasimha Murty has earned deep respect across the state — not only as an able administrator but also as a shining example of humanity and service.
+        </p>
+
+        <!-- Mission & Vision -->
+        <div class="cards-row">
+          <div class="mini-card">
+            <h5>Our Mission</h5>
+            <p>To develop value-driven, legally sound residential communities that deliver long-term value and safe living for families.</p>
+          </div>
+          <div class="mini-card">
+            <h5>Our Vision</h5>
+            <p>To be the most trusted regional developer known for transparency, quality and timely delivery.</p>
+          </div>
+        </div>
+
+        <!-- Why choose -->
+        <div class="why-choose">
+          <div class="why-text">
+            <h5 class="section-title" style="margin-top:18px; margin-bottom:8px;">Why Choose Nivvayasa</h5>
+            <p class="lead-muted">Transparent processes, clear titles, quality-first construction and timely handovers — we build communities, not just projects.</p>
+          </div>
+
+          <div class="card-ghost">
+            <strong style="display:block; font-size:1.05rem; color:var(--navy); margin-bottom:6px;">What we deliver</strong>
+            <ul style="margin:0; padding-left:18px; color:#444; line-height:1.7;">
+              <li>Verified documentation & clear titles</li>
+              <li>Planned infrastructure with roads & drainage</li>
+              <li>Customer-first support & resale assistance</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-row">
+          <div class="stat">
+            <div class="num gold">Since 2023</div>
+            <div class="label muted">Year Founded</div>
+          </div>
+          <div class="stat">
+            <div class="num gold">12+</div>
+            <div class="label muted">Completed Projects</div>
+          </div>
+          <div class="stat">
+            <div class="num gold">5</div>
+            <div class="label muted">Cities</div>
+          </div>
+          <div class="stat">
+            <div class="num gold">500+</div>
+            <div class="label muted">Happy Customers</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TEAM PREVIEW -->
+    <h4 style="margin-top:48px; margin-bottom:14px; color:var(--navy);">Leadership & Team</h4>
+    <div class="team-grid">
+      <!-- Chairman (featured) -->
+      <div class="team-card">
+        <img src="images/MCN.jpg" alt="Chairman">
+        <div class="tc-body">
+          <h6>M. C. Narasimha Murthy</h6>
+          <div class="small-muted">Chairman</div>
+        </div>
+      </div>
+
+      <!-- Project Manager (placeholder) -->
+      <div class="team-card">
+        <img src="images/Deekshit.jpg" alt="Project Manager">
+        <div class="tc-body">
+          <h6>Project Manager</h6>
+          <div class="small-muted">Operations & Strategy</div>
+        </div>
+      </div>
+
+      <!-- Head of Projects placeholder -->
+      <div class="team-card">
+        <img src="https://placehold.co/800x600" alt="Head of Projects">
+        <div class="tc-body">
+          <h6>Head of Projects</h6>
+          <div class="small-muted">Project Execution</div>
+        </div>
+      </div>
+
+      <!-- Add more team cards as required -->
+    </div>
+
+  </div><!-- .site-wrap -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container d-flex justify-content-between align-items-center">
+      <div><strong>Nivvayasa Developers & Builders</strong></div>
+      <div class="text-muted small">© <span id="year"></span> Nivvayasa — All rights reserved</div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
