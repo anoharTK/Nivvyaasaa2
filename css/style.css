@@ -1,0 +1,228 @@
+/* =========================================================
+   NIVVYAASAA – Premium Real Estate Website Theme (2025)
+   Author: ChatGPT x ManoharTK
+   ========================================================= */
+
+/* ===== GLOBAL ===== */
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: #0b0b0b;
+    color: #eaeaea;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+/* ===== LOGO ===== */
+.logo img {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    margin: 8px 0;
+}
+
+@media (max-width: 768px) {
+    .logo img {
+        height: 75px;
+    }
+}
+
+/* ===== TOP BAR ===== */
+.top-bar {
+    background: linear-gradient(90deg, #000, #1a1a1a);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+    color: #f8f8f8;
+    padding: 12px 0;
+}
+.top-bar .top-bar-item {
+    display: flex;
+    align-items: center;
+}
+.top-bar-icon i {
+    font-size: 26px;
+    color: #ffd700;
+    margin-right: 10px;
+}
+.top-bar-text h3 {
+    color: #ffd700;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+.top-bar-text p {
+    color: #cfcfcf;
+    font-size: 14px;
+}
+
+/* ===== NAVBAR ===== */
+.nav-bar {
+    box-shadow: 0 3px 25px rgba(255, 215, 0, 0.08);
+}
+.navbar {
+    background: rgba(10, 10, 10, 0.95) !important;
+    backdrop-filter: blur(10px);
+}
+.navbar-nav .nav-link {
+    color: #f5f5f5 !important;
+    font-weight: 500;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #ffd700 !important;
+}
+
+/* ===== CAROUSEL (Hero Slider) ===== */
+.carousel-item img {
+    width: 100%;
+    height: 75vh !important;
+    object-fit: cover;
+    filter: brightness(0.95);
+}
+
+@media (max-width: 768px) {
+    .carousel-item img {
+        height: auto !important;
+        object-fit: contain;
+    }
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(255, 215, 0, 0.6);
+    border-radius: 50%;
+}
+
+/* ===== FEATURE SECTION ===== */
+.feature-section {
+    background: #111;
+    padding: 70px 0;
+    text-align: center;
+}
+.feature-box {
+    background: #161616;
+    color: #f0f0f0;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.05);
+    margin-bottom: 30px;
+    transition: 0.3s ease-in-out;
+}
+.feature-box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(255, 215, 0, 0.2);
+}
+.feature-box i {
+    font-size: 40px;
+    color: #ffd700;
+    margin-bottom: 18px;
+}
+.feature-box h3 {
+    font-weight: 600;
+    color: #ffd700;
+    margin-bottom: 12px;
+}
+.feature-box p {
+    font-size: 15px;
+    color: #dcdcdc;
+}
+
+/* ===== ABOUT SECTION ===== */
+.about-section {
+    background: #0c0c0c;
+    padding: 90px 0;
+}
+.section-title {
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 32px;
+    color: #ffd700;
+    text-transform: uppercase;
+}
+.about-section p {
+    line-height: 1.8;
+    font-size: 16px;
+    color: #cccccc;
+}
+.about-section img {
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(255, 215, 0, 0.25);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.about-section img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 45px rgba(255, 215, 0, 0.35);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    background: linear-gradient(45deg, #b8860b, #ffd700);
+    border: none;
+    color: #111;
+    font-weight: 600;
+    padding: 10px 25px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+.btn:hover {
+    background: linear-gradient(45deg, #ffd700, #fff);
+    transform: translateY(-2px);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #0a0a0a;
+    padding: 60px 0;
+    color: #bbb;
+}
+.footer h2 {
+    color: #ffd700;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.footer a {
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+.footer a:hover {
+    color: #ffd700;
+    text-decoration: none;
+}
+.footer-social a {
+    color: #ffd700;
+    font-size: 18px;
+    margin-right: 15px;
+    transition: transform 0.3s ease;
+}
+.footer-social a:hover {
+    transform: scale(1.2);
+}
+.footer .copyright {
+    text-align: center;
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+    padding-top: 20px;
+    font-size: 14px;
+    color: #999;
+}
+
+/* ===== BACK TO TOP ===== */
+.back-to-top {
+    background: #ffd700;
+    color: #111;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    text-align: center;
+    line-height: 45px;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+.back-to-top:hover {
+    background: #fff;
+    color: #000;
+    transform: translateY(-4px);
+}
