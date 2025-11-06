@@ -26,6 +26,13 @@
       --glass: rgba(255,255,255,0.06);
       --radius:14px;
     }
+    .top-image img{
+  height:40px;
+  width:auto;
+  border-radius:6px;
+  box-shadow:0 0 6px rgba(255,255,255,0.15);
+  object-fit:contain;
+}
 
     *{box-sizing:border-box}
     body{
@@ -130,41 +137,59 @@
 <body>
 
   <!-- TOP BAR -->
-  <div class="top-bar">
-    <div class="container">
-      <div class="row gy-2 align-items-center">
-        <div class="col-md-4 text-center text-md-start">
-          <div class="top-item">
-            <div class="icon-wrap"><i class="fa fa-phone"></i></div>
-            <div>
-              <small style="opacity:.8;display:block">Call us</small>
-              <strong><a href="tel:+918197670731">+91 81976 70731</a></strong>
-            </div>
+ <!-- TOP BAR -->
+<div class="top-bar">
+  <div class="container">
+    <div class="row gy-2 align-items-center">
+      
+      <div class="col-md-4 text-center text-md-start">
+        <div class="top-item">
+          <div class="icon-wrap"><i class="fa fa-phone"></i></div>
+          <div>
+            <small style="opacity:.8;display:block">Call us</small>
+            <strong><a href="tel:+918197670731">+91 81976 70731</a></strong>
           </div>
         </div>
-        <div class="col-md-4 text-center">
-          <div class="top-item">
-            <div class="icon-wrap"><i class="fa fa-envelope"></i></div>
-            <div>
-              <small style="opacity:.8;display:block">Email</small>
-              <strong><a href="mailto:nivvyaasaa.developers@gmail.com">nivvyaasaa.developers@gmail.com</a></strong>
-            </div>
+      </div>
+
+      <div class="col-md-4 text-center">
+        <div class="top-item">
+          <div class="icon-wrap"><i class="fa fa-envelope"></i></div>
+          <div>
+            <small style="opacity:.8;display:block">Email</small>
+            <strong><a href="mailto:nivvyaasaa.developers@gmail.com">nivvyaasaa.developers@gmail.com</a></strong>
           </div>
         </div>
-        <div class="col-md-4 text-center text-md-end">
-          <span class="brand">NIVVYAASAA</span>
+      </div>
+
+      <div class="col-md-4 text-center text-md-end d-flex justify-content-end align-items-center gap-2">
+        
+        <!-- ✅ BRAND NAME -->
+        <span class="brand">NIVVYAASAA</span>
+
+        <!-- ✅ NEW IMAGE PLACEHOLDER -->
+        <div class="top-image" style="margin-left:8px;">
+          <img src="images/Logo1.jpg" alt="Top Image" 
+               style="height:69px; width:auto; border-radius:6px;">
         </div>
+
       </div>
     </div>
   </div>
+</div>
+
 
   <!-- NAV -->
   <header class="navbar-top">
     <nav class="container navbar navbar-expand-lg">
-      <a class="navbar-brand text-white d-flex align-items-center gap-2" href="#">
-        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-2));display:grid;place-items:center;color:#08122a;font-weight:800">N</div>
-        <div class="ms-2 brand">Nivvayasa</div>
-      </a>
+<a class="navbar-brand d-flex align-items-center" href="#" 
+   style="font-size:1.45rem; font-weight:700; letter-spacing:1.5px;
+          background:linear-gradient(135deg,#d4af37,#f6e27a);
+          -webkit-background-clip:text;
+          color:transparent;">
+    NIVVYAASAA
+</a>
+
 
       <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
         <span class="navbar-toggler-icon" style="display:block;width:28px;height:2px;background:#fff;position:relative"></span>
@@ -273,7 +298,7 @@
       <div class="row align-items-center gy-4">
         <div class="col-lg-5 text-center">
           <div class="logo-pill">
-            <img src="images/Logo.jpg" alt="Nivvayasa logo" style="max-width:220px;display:block;margin:auto">
+            <img src="images/Logo1.jpg" alt="Nivvayasa logo" style="max-width:220px;display:block;margin:auto">
           </div>
         </div>
         <div class="col-lg-7">
