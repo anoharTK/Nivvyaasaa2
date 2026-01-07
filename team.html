@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NIVVYAASAA — Team</title>
+<title>NIVVYAASAA — Leadership</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,222 +13,225 @@
 :root{
   --navy:#08122a;
   --gold:#c19d56;
-  --gold-2:#d4af37;
+  --gold2:#d4af37;
   --muted:#6b7280;
 }
 
 body{
   font-family:'Poppins',sans-serif;
-  background:#fbfbfd;
-  color:#222;
+  background:#f6f7fb;
+  color:#1f2937;
 }
 
-/* TOP BAR */
-.top-bar{
-  background:linear-gradient(90deg,var(--navy),#071126);
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#08122a,#071126);
+  padding:4rem 0 5rem;
   color:#fff;
-  padding:10px 0;
-  font-size:13px;
-}
-.top-bar a{color:var(--gold-2);text-decoration:none}
-
-/* NAVBAR */
-header.navbar-top{
-  position:sticky;top:0;z-index:1030;
-  backdrop-filter:blur(6px);
-  background:linear-gradient(180deg,rgba(8,18,42,.9),rgba(8,18,42,.75));
-}
-.nav-link{
-  color:#fff!important;
-  font-size:13px;
-  font-weight:600;
-  text-transform:uppercase;
-}
-.nav-link:hover{color:var(--gold-2)!important}
-
-/* TEAM SECTION */
-.team-section{
-  padding:5rem 0;
-  background:linear-gradient(180deg,#fbfbfd,#f3f4f8);
-}
-.team-title{
   text-align:center;
-  color:var(--gold);
+}
+header h1{
   font-weight:700;
-  font-size:2.2rem;
-  margin-bottom:3.5rem;
+  letter-spacing:2px;
+}
+header p{
+  max-width:700px;
+  margin:.8rem auto 1.5rem;
+  opacity:.9;
 }
 
-/* CARD BASE */
-.team-card{
-  position:relative;
+/* SOCIAL */
+.social-links a{
+  color:#fff;
+  font-size:1.3rem;
+  margin:0 .6rem;
+  transition:.3s;
+}
+.social-links a:hover{
+  color:var(--gold2);
+}
+
+/* SECTION */
+.team-section{
+  margin-top:-90px;
+  padding-bottom:5rem;
+}
+
+/* CEO FEATURE */
+.ceo-card{
   background:#fff;
   border-radius:22px;
-  padding:2.5rem 2rem;
-  box-shadow:0 18px 40px rgba(8,18,42,.08);
-  transition:.35s;
-  height:100%;
+  padding:3rem 2rem 2.5rem;
+  box-shadow:0 30px 70px rgba(8,18,42,.12);
+  text-align:center;
 }
-.team-card::before{
-  content:"";
-  position:absolute;
-  top:0;left:0;width:100%;height:6px;
-  background:linear-gradient(90deg,var(--gold),var(--gold-2));
-}
-.team-card:hover{
-  transform:translateY(-10px);
-  box-shadow:0 30px 60px rgba(8,18,42,.12);
-}
-
-/* IMAGE CARD (ONLY CEO) */
-.team-img-wrap{
-  width:130px;height:130px;
-  margin:-90px auto 1rem;
+.ceo-img{
+  width:150px;
+  height:150px;
+  margin:-110px auto 1.2rem;
   border-radius:50%;
   padding:6px;
-  background:linear-gradient(135deg,var(--gold),var(--gold-2));
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
 }
-.team-img-wrap img{
-  width:100%;height:100%;
-  object-fit:cover;border-radius:50%;
+.ceo-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
   background:#fff;
 }
-
-/* TEXT STYLES */
-.team-name{
-  font-size:1.25rem;
+.ceo-name{
+  font-size:1.45rem;
   font-weight:700;
-  text-align:center;
-  color:#08122a;
 }
-.team-role{
-  text-align:center;
-  font-size:.95rem;
-  font-weight:600;
+.ceo-role{
   color:var(--gold);
+  font-weight:600;
   margin-bottom:.8rem;
 }
-.team-divider{
-  width:50px;height:3px;
-  margin:0 auto 1.2rem;
-  background:linear-gradient(90deg,var(--gold),var(--gold-2));
-  border-radius:4px;
+.ceo-text{
+  font-size:.95rem;
+  color:var(--muted);
+  line-height:1.7;
 }
-.team-text{
+
+/* EXECUTIVE GRID */
+.exec-grid{
+  margin-top:3rem;
+}
+.exec-card{
+  background:#fff;
+  border-radius:18px;
+  padding:2.2rem;
+  height:100%;
+  box-shadow:0 18px 40px rgba(8,18,42,.08);
+  transition:.3s;
+}
+.exec-card:hover{
+  transform:translateY(-8px);
+}
+.exec-card h4{
+  font-size:1.25rem;
+  font-weight:700;
+}
+.exec-card span{
+  display:block;
+  color:var(--gold);
+  font-weight:600;
+  margin:.3rem 0 .9rem;
+}
+.exec-card p{
   font-size:.9rem;
   color:var(--muted);
   line-height:1.65;
-  text-align:center;
 }
 
-/* TEXT-ONLY CARD VARIANT */
-.text-only .team-name{
-  font-size:1.35rem;
-}
-.text-only .team-role{
-  font-size:1rem;
+/* FOOTER */
+footer{
+  background:#fff;
+  border-top:1px solid #e5e7eb;
+  text-align:center;
+  padding:1rem;
+  font-size:.85rem;
+  color:#6b7280;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-  <div class="container text-center">
-    <strong>NIVVYAASAA Developers & Builders</strong>
-  </div>
-</div>
+<!-- HEADER -->
+<header>
+  <h1>NIVVYAASAA</h1>
+  <p>
+    Building trusted residential layouts, plotted developments, and real-estate
+    investment opportunities with transparency, legal clarity, and execution excellence.
+  </p>
 
-<!-- NAV -->
-<header class="navbar-top">
-  <nav class="navbar navbar-expand-lg container">
-    <a class="navbar-brand fw-bold"
-       style="background:linear-gradient(135deg,#d4af37,#f6e27a);
-              -webkit-background-clip:text;color:transparent;"
-       href="index.html">NIVVYAASAA</a>
-    <button class="navbar-toggler bg-light" data-bs-toggle="collapse" data-bs-target="#nav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="nav">
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-        <li class="nav-item"><a class="nav-link active" href="team.html">Team</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-      </ul>
-    </div>
-  </nav>
+  <!-- SOCIAL LINKS -->
+  <div class="social-links">
+    <a href="https://www.linkedin.com/in/nivvyaasaa-builders-and-developers-pvt-ltd-4a33b8377?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank">
+      <i class="fab fa-linkedin"></i>
+    </a>
+    <a href="https://www.instagram.com/nivvyaasaa?igsh=MTh0ZTR4dmRiNHRpMw==" target="_blank">
+      <i class="fab fa-instagram"></i>
+    </a>
+  </div>
 </header>
 
 <!-- TEAM -->
 <section class="team-section">
   <div class="container">
-    <h2 class="team-title">Our Leadership</h2>
 
-    <div class="row g-5 justify-content-center">
-
-      <!-- CEO WITH IMAGE -->
-      <div class="col-lg-4">
-        <div class="team-card">
-          <div class="team-img-wrap">
+    <!-- CEO -->
+    <div class="row justify-content-center">
+      <div class="col-lg-5">
+        <div class="ceo-card">
+          <div class="ceo-img">
             <img src="images/Deekshit.jpg" alt="CEO">
           </div>
-          <div class="team-name">Deekshit N</div>
-          <div class="team-role">Chief Executive Officer</div>
-          <div class="team-divider"></div>
-          <p class="team-text">
-            A qualified Civil Engineer with a B.E. in Civil, he brings strong technical expertise to the real estate and infrastructure sector. He has successfully contributed to major NHAI projects and handled multiple BESCOM works with precision and professionalism. His experience spans a wide range of construction and development projects across Karnataka. Known for his on-site leadership and problem-solving skills, he ensures quality and timely execution in every assignment. His dedication, discipline, and hands-on approach make him a key asset in shaping reliable and efficient developments.
+          <div class="ceo-name">Deekshit N</div>
+          <div class="ceo-role">Chief Executive Officer</div>
+          <p class="ceo-text">
+            A Civil Engineer leading large-scale plotted developments and infrastructure projects
+            across Karnataka. With hands-on experience in NHAI and BESCOM works, he drives
+            disciplined execution, statutory compliance, and long-term value creation in every project.
           </p>
         </div>
       </div>
+    </div>
 
-      <!-- TEXT ONLY -->
-      <div class="col-lg-4">
-        <div class="team-card text-only">
-          <div class="team-name">M. C. Narasimha Murthy</div>
-          <div class="team-role">Chief Legal Advisor</div>
-          <div class="team-divider"></div>
-          <p class="team-text">
-            M. C. Narasimha Murty is a respected public servant who served Karnataka as a dedicated Tahsildar, driving key developmental and administrative reforms. Beyond governance, he is known for his philanthropy, supporting temples, schools, orphanages, and families in need. His humanitarian work has been featured by multiple media channels, including Public TV’s “Belaku,” for his compassionate service. He continues to be admired for his integrity, leadership, and lifelong commitment to community welfare.
-          </p>
-        </div>
-      </div>
+    <!-- EXECUTIVE TEAM -->
+    <div class="row exec-grid g-4 justify-content-center">
 
       <div class="col-lg-4">
-        <div class="team-card text-only">
-          <div class="team-name">Deepthi Manohar</div>
-          <div class="team-role">Interior Design Lead</div>
-          <div class="team-divider"></div>
-          <p class="team-text">
-            M. C. Narasimha Murty is a respected public servant who served Karnataka as a dedicated Tahsildar, driving key developmental and administrative reforms. Beyond governance, he is known for his philanthropy, supporting temples, schools, orphanages, and families in need. His humanitarian work has been featured by multiple media channels, including Public TV’s “Belaku,” for his compassionate service. He continues to be admired for his integrity, leadership, and lifelong commitment to community welfare.
+        <div class="exec-card">
+          <h4>M. C. Narasimha Murthy</h4>
+          <span>Chairman & Founder</span>
+          <p>
+            Former Tahsildar of Karnataka with deep expertise in land administration,
+            governance, and regulatory processes. His leadership ensures ethical practices,
+            legal transparency, and strong foundations for every real-estate development.
           </p>
         </div>
       </div>
 
       <div class="col-lg-4">
-        <div class="team-card text-only">
-          <div class="team-name">Manohar Kusgur</div>
-          <div class="team-role">Technology & Web Lead</div>
-          <div class="team-divider"></div>
-          <p class="team-text">
-            Manohar is a skilled real estate website developer known for creating modern, fast, and visually appealing digital experiences. He specializes in building responsive sites that highlight projects, teams, and brand identity with clarity and style. With strong expertise in HTML, CSS, JavaScript, and UI layout design, he crafts websites that are both functional and user-friendly. His work focuses on clean structure, smooth navigation, and professional presentation tailored to real estate needs. Manohar’s dedication to quality and detail ensures every website effectively showcases the client's vision and enhances their online presence.
+        <div class="exec-card">
+          <h4>Deepthi M</h4>
+          <span>Interior Design & Planning Lead</span>
+          <p>
+            Specializes in residential interior planning and space optimization.
+            She delivers elegant, functional interiors aligned with modern living standards
+            and long-term durability for homeowners.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="exec-card">
+          <h4>Manohar K</h4>
+          <span>Technology & Digital Platforms</span>
+          <p>
+            Leads digital transformation and online presence for real-estate projects.
+            Focused on clean UI, responsive design, and showcasing developments
+            with clarity and professionalism.
           </p>
         </div>
       </div>
 
     </div>
+
   </div>
 </section>
 
-<footer class="text-center text-muted py-3 border-top">
-© <span id="year"></span> Nivvayasa Developers & Builders
+<footer>
+  © <span id="year"></span> Nivvayasa Developers & Builders
 </footer>
 
 <script>
 document.getElementById("year").textContent=new Date().getFullYear();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
