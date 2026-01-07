@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>NIVVYAASAA — Leadership</title>
 
+<!-- Fonts & Icons -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
 :root{
@@ -23,19 +24,45 @@ body{
   color:#1f2937;
 }
 
-/* HEADER */
-header{
-  background:linear-gradient(135deg,#08122a,#071126);
-  padding:4rem 0 5rem;
-  color:#fff;
-  text-align:center;
+/* NAVBAR */
+header.navbar-top{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:linear-gradient(180deg,rgba(8,18,42,.92),rgba(8,18,42,.75));
+  backdrop-filter:blur(6px);
 }
-header h1{
+.navbar-brand{
+  font-weight:700;
+  letter-spacing:2px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.nav-link{
+  color:#fff !important;
+  font-weight:600;
+  font-size:13px;
+  text-transform:uppercase;
+}
+.nav-link.active,
+.nav-link:hover{
+  color:var(--gold2)!important;
+}
+
+/* HEADER HERO */
+.hero{
+  background:linear-gradient(135deg,#08122a,#071126);
+  padding:4.5rem 0 5.5rem;
+  text-align:center;
+  color:#fff;
+}
+.hero h1{
   font-weight:700;
   letter-spacing:2px;
 }
-header p{
-  max-width:700px;
+.hero p{
+  max-width:720px;
   margin:.8rem auto 1.5rem;
   opacity:.9;
 }
@@ -51,13 +78,13 @@ header p{
   color:var(--gold2);
 }
 
-/* SECTION */
+/* TEAM SECTION */
 .team-section{
   margin-top:-90px;
   padding-bottom:5rem;
 }
 
-/* CEO FEATURE */
+/* CEO CARD */
 .ceo-card{
   background:#fff;
   border-radius:22px;
@@ -78,7 +105,6 @@ header p{
   height:100%;
   object-fit:cover;
   border-radius:50%;
-  background:#fff;
 }
 .ceo-name{
   font-size:1.45rem;
@@ -131,7 +157,7 @@ footer{
   background:#fff;
   border-top:1px solid #e5e7eb;
   text-align:center;
-  padding:1rem;
+  padding:1.2rem;
   font-size:.85rem;
   color:#6b7280;
 }
@@ -140,15 +166,34 @@ footer{
 
 <body>
 
-<!-- HEADER -->
-<header>
-  <h1>NIVVYAASAA</h1>
+<!-- NAVBAR -->
+<header class="navbar-top">
+  <nav class="container navbar navbar-expand-lg">
+    <a class="navbar-brand" href="index.html">NIVVYAASAA</a>
+
+    <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link active" href="team.html">Team</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Our Leadership</h1>
   <p>
-    Building trusted residential layouts, plotted developments, and real-estate
-    investment opportunities with transparency, legal clarity, and execution excellence.
+    Delivering legally secure, well-planned residential developments through
+    strong governance, engineering excellence, and transparent execution.
   </p>
 
-  <!-- SOCIAL LINKS -->
   <div class="social-links">
     <a href="https://www.linkedin.com/in/nivvyaasaa-builders-and-developers-pvt-ltd-4a33b8377?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank">
       <i class="fab fa-linkedin"></i>
@@ -157,7 +202,7 @@ footer{
       <i class="fab fa-instagram"></i>
     </a>
   </div>
-</header>
+</section>
 
 <!-- TEAM -->
 <section class="team-section">
@@ -173,15 +218,15 @@ footer{
           <div class="ceo-name">Deekshit N</div>
           <div class="ceo-role">Chief Executive Officer</div>
           <p class="ceo-text">
-            A Civil Engineer leading large-scale plotted developments and infrastructure projects
-            across Karnataka. With hands-on experience in NHAI and BESCOM works, he drives
-            disciplined execution, statutory compliance, and long-term value creation in every project.
+            Civil Engineer leading plotted developments and infrastructure projects
+            across Karnataka. Known for disciplined execution, regulatory compliance,
+            and delivering long-term value to landowners and homeowners.
           </p>
         </div>
       </div>
     </div>
 
-    <!-- EXECUTIVE TEAM -->
+    <!-- EXECUTIVES -->
     <div class="row exec-grid g-4 justify-content-center">
 
       <div class="col-lg-4">
@@ -189,9 +234,9 @@ footer{
           <h4>M. C. Narasimha Murthy</h4>
           <span>Chairman & Founder</span>
           <p>
-            Former Tahsildar of Karnataka with deep expertise in land administration,
-            governance, and regulatory processes. His leadership ensures ethical practices,
-            legal transparency, and strong foundations for every real-estate development.
+            Former Tahsildar with deep expertise in land administration and governance.
+            Provides strong legal clarity, ethical leadership, and statutory compliance
+            across all real-estate ventures.
           </p>
         </div>
       </div>
@@ -201,9 +246,8 @@ footer{
           <h4>Deepthi M</h4>
           <span>Interior Design & Planning Lead</span>
           <p>
-            Specializes in residential interior planning and space optimization.
-            She delivers elegant, functional interiors aligned with modern living standards
-            and long-term durability for homeowners.
+            Leads residential interior planning with a focus on functionality,
+            aesthetics, and long-term durability aligned with modern living standards.
           </p>
         </div>
       </div>
@@ -213,9 +257,8 @@ footer{
           <h4>Manohar K</h4>
           <span>Technology & Digital Platforms</span>
           <p>
-            Leads digital transformation and online presence for real-estate projects.
-            Focused on clean UI, responsive design, and showcasing developments
-            with clarity and professionalism.
+            Drives digital branding and online project visibility through modern UI,
+            responsive design, and professional real-estate presentation.
           </p>
         </div>
       </div>
@@ -226,12 +269,13 @@ footer{
 </section>
 
 <footer>
-  © <span id="year"></span> Nivvayasa Developers & Builders
+  © <span id="year"></span> Nivvayasa Developers & Builders — All rights reserved
 </footer>
 
 <script>
 document.getElementById("year").textContent=new Date().getFullYear();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
