@@ -1,3 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nivvyaasaa — Home</title>
+
+  <!-- GOOGLE FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- BOOTSTRAP 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- SWIPER (if used later) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+  <!-- ICONS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#08122a;
+      --gold:#c19d56;
+      --gold-2:#d4af37;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.06);
+      --radius:14px;
+    }
+    html,body{ height:100%; }
+    body{ font-family:'Poppins',sans-serif; background:#fbfbfd; color:#222; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; margin:0; }
+
+    /* TOP BAR */
+    .top-bar{ background: linear-gradient(90deg,var(--navy), #071126); color:#fff; font-size:13px; padding:8px 0; }
+    .top-bar .icon-wrap{width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.03);display:inline-grid;place-items:center}
+
+    /* NAV */
+    header.navbar-top{ position:sticky; top:0; z-index:1030; backdrop-filter: blur(6px); background: linear-gradient(180deg, rgba(8,18,42,0.86), rgba(8,18,42,0.70)); border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .brand{ font-weight:700; letter-spacing:2px; color:#fff; font-size:20px; }
+    .nav-link { color: rgba(255,255,255,0.95) !important; text-transform:uppercase; font-weight:600; font-size:13px; }
+    .btn-ghost{ border-radius:999px; border:1px solid rgba(255,255,255,0.08); padding:.45rem .75rem; font-weight:600; color:#fff; background:transparent; transition:all .25s; font-size:.9rem; }
+
+    /* HERO */
+    .hero{ position:relative; overflow:hidden; min-height:75vh; display:flex; align-items:center; }
+    .hero .hero-inner { position:relative; z-index:3; padding:3.5rem 0; }
+    .hero h1{ font-size:42px; color:#fff; font-weight:700; letter-spacing:.2px; margin-bottom:.5rem; text-shadow:0 8px 30px rgba(2,6,23,0.6) }
+    .hero p.lead{ color:rgba(255,255,255,0.95); font-size:1rem; max-width:720px; margin-bottom:1rem; opacity:.98 }
+
+    /* background video (hidden on mobile until user plays) */
+    .hero-bg-video {
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
+      filter:brightness(.52) contrast(.95);
+      pointer-events:none;
+      will-change:transform;
+      display:block; /* we'll toggle visibility with JS on mobile */
+    }
+    /* overlay to keep text readable */
+    .hero::after { content:""; position:absolute; inset:0; z-index:1; background: linear-gradient(180deg, rgba(2,6,23,0.22), rgba(2,6,23,0.22)); pointer-events:none; }
+
+    /* Mobile play toggle button (visible only on small screens) */
+    .mobile-toggle {
+      display:none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 10%;
+      z-index: 4;
+      background: rgba(2,6,23,0.45);
+      border: 0;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight:700;
+      display:inline-flex;
+      gap:.6rem;
+      align-items:center;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.35);
+    }
+    .mobile-toggle:focus { outline: 3px solid rgba(212,175,55,0.18); outline-offset:2px; }
+
+    /* Right-card (desktop only) */
+    .video-card { max-width:360px; margin-left:auto; z-index:2; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border-radius:14px; padding:1rem; color:#fff; box-shadow:0 20px 50px rgba(2,6,23,0.12); }
+    .small-stat { display:flex; gap:.75rem; align-items:center; }
+
+    /* footer */
+    footer{ padding:2.5rem 0; color:var(--muted); font-size:.95rem; }
+
+    /* RESPONSIVE */
+    @media (max-width:767px) {
+      /* show toggle button */
+      .mobile-toggle { display:inline-flex; }
+      /* start with hidden video visually (we'll explicitly hide with CSS when not playing) */
+      .hero { background-image: url('images/hero-poster.jpg'); background-size:cover; background-position:center; }
+      .hero::after { background: linear-gradient(180deg, rgba(2,6,23,0.36), rgba(2,6,23,0.34)); }
+      .hero .hero-inner { padding:2.25rem 0; }
+      .hero h1 { font-size:28px; line-height:1.05; margin-bottom:0.6rem; }
+      .hero p.lead { font-size:0.95rem; max-width:100%; }
+      .brand { font-size:16px; }
+      .top-bar .container { padding-left:10px; padding-right:10px; }
+      .navbar .navbar-collapse { background: linear-gradient(180deg,#071126,#041023); padding:12px; border-radius:10px; margin-top:8px; }
+      .video-card { display:block; }
+      /* when the video is not playing we'll hide it using this class (added/removed by JS) */
+      .hero.video-playing { background-image: none; } /* remove poster when playing */
+      .hero.video-playing .hero-bg-video { display:block; } /* ensure video visible */
+      .hero .hero-bg-video { display:none; } /* default hidden on mobile */
+    }
+
+    @media (min-width:768px) and (max-width:991px) { .hero h1 { font-size:34px; } }
+    @media (min-width:992px) { .hero .hero-inner { padding:5rem 0; } }
+
+    /* reduce repainting */
+    video { backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translateZ(0); }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="row gy-2 align-items-center">
+        <div class="col-6 col-md-4 text-start">
+          <div class="d-flex align-items-center gap-2">
+            <div class="icon-wrap"><i class="fa fa-phone"></i></div>
+            <div>
+              <small style="opacity:.8;display:block">Call</small>
+              <strong><a href="tel:+918197670731" style="color:inherit;text-decoration:none">+91 81976 70731</a></strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 text-center d-none d-md-block">
+          <div class="d-flex align-items-center justify-content-center gap-2">
+            <div class="icon-wrap"><i class="fa fa-envelope"></i></div>
+            <div>
+              <small style="opacity:.8;display:block">Email</small>
+              <strong><a href="mailto:nivvyaasaa.developers@gmail.com" style="color:inherit;text-decoration:none">nivvyaasaa.developers@gmail.com</a></strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4 text-md-end d-flex justify-content-end align-items-center gap-2">
+          <span class="brand">NIVVYAASAA</span>
+          <div class="top-image" style="margin-left:8px;">
+            <img src="images/Logo1.jpg" alt="Top Image" style="height:44px; width:auto; border-radius:6px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header class="navbar-top">
+    <nav class="container navbar navbar-expand-lg">
+      <a class="navbar-brand d-flex align-items-center" href="#" style="font-size:1.2rem; font-weight:700; letter-spacing:1.5px; background:linear-gradient(135deg,#d4af37,#f6e27a); -webkit-background-clip:text; color:transparent;">NIVVYAASAA</a>
+
+      <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="team.html">Team</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item ms-3"><a class="btn btn-ghost" href="contact.html">Enquire</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="heroSection">
+    <!-- background video (sources set dynamically by JS) -->
+    <video id="heroBgVideo" class="hero-bg-video" playsinline muted loop preload="metadata" aria-hidden="true" tabindex="-1">
+      <!-- empty; will be filled by JS when desktop loads or mobile user taps play -->
+    </video>
+
+    <div class="container hero-inner">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <h1 class="fade-up show">Perfecting the art of development — building communities that last.</h1>
+          <p class="lead fade-up show" style="transition-delay:.12s">
+            Nivvyaasaa delivers thoughtful residential communities across Karnataka — value-driven design, transparent processes, and a commitment to quality.
+          </p>
+
+          <div class="cta-gap mt-3 fade-up show" style="transition-delay:.2s">
+            <a href="projects.html" class="btn btn-lg btn-primary" style="background:linear-gradient(90deg,var(--gold),var(--gold-2)); border:0; color:#07122a; font-weight:700">Explore Projects</a>
+            <a href="contact.html" class="btn btn-outline-light" style="border-color:rgba(255,255,255,0.12)">Contact Us</a>
+          </div>
+        </div>
+
+        <div class="col-lg-5 d-none d-lg-block">
+          <!-- Right card (desktop only) — kept simple (no image) -->
+          <div class="video-card ms-auto">
+            <h6 style="font-weight:700; margin-bottom:.5rem; color:#fff">Why choose us</h6>
+            <p style="margin-bottom:.75rem; color:#fff">Transparent processes, timely deliveries, and communities built for families.</p>
+            <div class="small-stat">
+              <div>
+                <strong style="font-size:1.25rem; color:var(--gold-2);">12+</strong>
+                <div style="color:var(--gold); font-size:.85rem;">Completed Projects</div>
+              </div>
+              <div>
+                <strong style="font-size:1.25rem; font-weight:700; background:linear-gradient(45deg,#c19d56,#d4af37); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">5</strong>
+                <div style="font-size:.85rem; font-weight:600; color:rgba(255,255,255,0.85)">Cities</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile-only play/pause toggle (center-bottom) -->
+    <button id="mobileToggle" class="mobile-toggle" aria-pressed="false" aria-label="Play background video (mobile)">
+      <span id="mobileToggleIcon" class="fa fa-play" aria-hidden="true"></span>
+      <span id="mobileToggleText">Play video</span>
+    </button>
+  </section>
+
+  <!-- rest of content (features/about/projects/footer) -->
+  <footer class="border-top">
+    <div class="container">
+      <div class="row py-4">
+        <div class="col-md-6">
+          <strong>Nivvyaasaa Developers & Builders</strong>
+          <div class="small text-muted">Committed to building trust & quality across Karnataka.</div>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <div class="small text-muted">© <span id="year"></span> Nivvyaasaa — All rights reserved</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 <script>
   // ---------- Background video loader + robust mobile toggle ----------
   (function(){
@@ -173,3 +412,6 @@
 
   })();
 </script>
+
+</body>
+</html>
