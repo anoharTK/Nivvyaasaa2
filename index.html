@@ -57,25 +57,37 @@
     .hero::after { content:""; position:absolute; inset:0; z-index:1; background: linear-gradient(180deg, rgba(2,6,23,0.22), rgba(2,6,23,0.22)); pointer-events:none; }
 
     /* Mobile play toggle button (visible only on small screens) */
-    .mobile-toggle {
-      display:none;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 10%;
-      z-index: 4;
-      background: rgba(2,6,23,0.45);
-      border: 0;
-      padding: 10px 14px;
-      border-radius: 999px;
-      color: #fff;
-      font-weight:700;
-      display:inline-flex;
-      gap:.6rem;
-      align-items:center;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 10px 30px rgba(2,6,23,0.35);
-    }
+   .mobile-toggle {
+  display:none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 10%;
+  z-index: 4;
+
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+
+  background: rgba(2,6,23,0.55);
+  border: 1px solid rgba(255,255,255,0.25);
+
+  color: #fff;
+  font-size: 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.35);
+}
+
+.mobile-toggle:focus {
+  outline: 3px solid rgba(212,175,55,0.35);
+  outline-offset: 2px;
+}
+
     .mobile-toggle:focus { outline: 3px solid rgba(212,175,55,0.18); outline-offset:2px; }
 
     /* Right-card (desktop only) */
@@ -212,10 +224,12 @@
     </div>
 
     <!-- Mobile-only play/pause toggle (center-bottom) -->
-    <button id="mobileToggle" class="mobile-toggle" aria-pressed="false" aria-label="Play background video (mobile)">
-      <span id="mobileToggleIcon" class="fa fa-play" aria-hidden="true"></span>
-      <span id="mobileToggleText">Play video</span>
-    </button>
+   <button id="mobileToggle"
+        class="mobile-toggle"
+        aria-pressed="false"
+        aria-label="Play or pause background video">
+  <span id="mobileToggleIcon" class="fa fa-play" aria-hidden="true"></span>
+</button>
   </section>
 
   <!-- rest of content (features/about/projects/footer) -->
@@ -257,10 +271,9 @@
 
     // Small helper to set UI immediately
     function setPlayingUI(on) {
-      mobileToggle.setAttribute('aria-pressed', on ? 'true' : 'false');
-      mobileIcon.className = on ? 'fa fa-pause' : 'fa fa-play';
-      mobileText.textContent = on ? 'Pause video' : 'Play video';
-    }
+  mobileToggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+  mobileIcon.className = on ? 'fa fa-pause' : 'fa fa-play';
+}
 
     // Attach debugging listeners
     function attachDebugListeners() {
