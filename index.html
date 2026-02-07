@@ -238,7 +238,6 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-  // ---------- Background video loader + robust mobile toggle ----------
   (function(){
     const video = document.getElementById('heroBgVideo');
     const hero = document.getElementById('heroSection');
@@ -247,165 +246,166 @@
     const mobileText = document.getElementById('mobileToggleText');
 
     if (!video || !hero || !mobileToggle) {
-      console.warn('Background video or mobile toggle not found.');
+      console.warn('Missing required elements: video / hero / mobileToggle');
       return;
     }
 
-    // Filenames (adjust if needed)
     const DESKTOP_SRC = 'Nivvyaasaa.mp4';
     const MOBILE_SRC  = 'Nivvyaasaa-mobile.mp4';
 
-    const isMobileQuery = () => window.matchMedia('(max-width:767px)').matches;
+    const isMobile = () => window.matchMedia('(max-width:767px)').matches;
 
-    // load desktop source and attempt autoplay
-    function loadForDesktop() {
-      while (video.firstChild) video.removeChild(video.firstChild);
-      const s = document.createElement('source');
-      s.src = DESKTOP_SRC;
-      s.type = 'video/mp4';
-      video.appendChild(s);
-      video.load();
-      video.muted = true;
-      video.play().catch((err) => {
-        console.warn('Desktop autoplay blocked:', err);
-        video.style.display = 'none';
-        hero.style.backgroundImage = "url('images/hero-poster.jpg')";
-        hero.style.backgroundSize = 'cover';
-        hero.style.backgroundPosition = 'center';
-      });
+    // Small helper to set UI immediately
+    function setPlayingUI(on) {
+      mobileToggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+      mobileIcon.className = on ? 'fa fa-pause' : 'fa fa-play';
+      mobileText.textContent = on ? 'Pause video' : 'Play video';
     }
 
-    // helper that tries to play and returns a promise
-    async function tryPlayVideo() {
+    // Attach debugging listeners
+    function attachDebugListeners() {
+      video.addEventListener('error', (e) => {
+        console.error('Video element error event:', e, 'video.error:', video.error);
+      });
+      video.addEventListener('stalled', ()=> console.warn('Video stalled (network)'));
+      video.addEventListener('waiting', ()=> console.warn('Video waiting for data'));
+      video.addEventListener('playing', ()=> console.log('Video playing event fired'));
+      video.addEventListener('canplay', ()=> console.log('Video canplay'));
+      video.addEventListener('canplaythrough', ()=> console.log('Video canplaythrough'));
+      video.addEventListener('loadedmetadata', ()=> console.log('Video loadedmetadata, duration:', video.duration));
+      video.addEventListener('loadstart', ()=> console.log('Video loadstart'));
+      video.addEventListener('abort', ()=> console.warn('Video load aborted'));
+    }
+
+    attachDebugListeners();
+
+    async function tryPlay(src) {
+      // remove old sources then set new src via <source> and also set video.src fallback
+      while (video.firstChild) video.removeChild(video.firstChild);
+      const s = document.createElement('source');
+      s.src = src;
+      s.type = 'video/mp4';
+      video.appendChild(s);
+      // also set video.src directly as a fallback for some browsers:
+      video.src = src;
+      video.load();
+
+      // Ensure muted before calling play
+      video.muted = true;
+      video.style.display = 'block'; // ensure visible
+      hero.classList.add('video-playing'); // remove poster background via CSS
+
+      console.log('Attempting play() for', src);
       try {
         await video.play();
+        console.log('play() resolved for', src);
         return true;
       } catch (err) {
-        console.warn('video.play() rejected:', err);
+        console.warn('play() rejected for', src, err);
         return false;
       }
     }
 
-    // Mobile toggle logic: load mobile source on demand and play/pause
-    function setupMobileToggle() {
-      // initial state
-      mobileToggle.setAttribute('aria-pressed', 'false');
-      mobileIcon.className = 'fa fa-play';
-      mobileText.textContent = 'Play video';
+    // Toggle handler (robustly wired)
+    let busy = false;
+    async function handleToggle(ev) {
+      ev && ev.preventDefault && ev.preventDefault();
 
-      // single-run guard to prevent double-fire from touch+click
-      let fired = false;
-      function handleUserToggle(ev) {
-        // prevent double firing
-        if (fired) {
-          // ignore duplicates for a short window
-          ev.preventDefault();
-          return;
+      if (busy) return;
+      busy = true;
+      const isPlaying = mobileToggle.getAttribute('aria-pressed') === 'true';
+
+      if (!isPlaying) {
+        // Try mobile file first
+        setPlayingUI(true); // immediate feedback
+        console.log('User requested play (mobile). Trying mobile file:', MOBILE_SRC);
+        let ok = await tryPlay(MOBILE_SRC);
+
+        if (!ok) {
+          console.log('Mobile file failed, trying desktop file as fallback:', DESKTOP_SRC);
+          ok = await tryPlay(DESKTOP_SRC);
         }
-        fired = true;
-        setTimeout(()=> fired = false, 300);
 
-        ev.preventDefault();
-        const isPlaying = mobileToggle.getAttribute('aria-pressed') === 'true';
-
-        if (!isPlaying) {
-          // user wants to start playback — load source and play
-          while (video.firstChild) video.removeChild(video.firstChild);
-          const s = document.createElement('source');
-          // prefer mobile file and fallback to desktop if missing; browser will 404 if file absent
-          s.src = MOBILE_SRC;
-          s.type = 'video/mp4';
-          video.appendChild(s);
-          video.load();
-
-          video.muted = true; // important to allow play from user gesture
-          // reveal the video (CSS toggles .video-playing -> shows video)
-          hero.classList.add('video-playing');
-
-          // quick UI feedback
-          mobileToggle.setAttribute('aria-pressed', 'true');
-          mobileIcon.className = 'fa fa-pause';
-          mobileText.textContent = 'Pause video';
-
-          // attempt play
-          tryPlayVideo().then(success => {
-            if (!success) {
-              // fallback: hide video and revert UI
-              hero.classList.remove('video-playing');
-              while (video.firstChild) video.removeChild(video.firstChild);
-              video.load();
-              mobileToggle.setAttribute('aria-pressed', 'false');
-              mobileIcon.className = 'fa fa-play';
-              mobileText.textContent = 'Play video';
-            } else {
-              // ensure the video element is visible (some browsers need display style)
-              video.style.display = 'block';
-              console.log('Mobile video started');
-            }
-          });
-        } else {
-          // user wants to pause playback
-          try { video.pause(); } catch(e){}
+        if (!ok) {
+          // final fallback: revert UI and show poster
+          console.error('Both mobile and desktop files failed to play. Check network/paths and test via http server.');
+          setPlayingUI(false);
           hero.classList.remove('video-playing');
-
-          // remove source to free memory
+          video.style.display = 'none';
+          // keep video cleared
           while (video.firstChild) video.removeChild(video.firstChild);
           video.load();
-
-          mobileToggle.setAttribute('aria-pressed', 'false');
-          mobileIcon.className = 'fa fa-play';
-          mobileText.textContent = 'Play video';
-          console.log('Mobile video paused & unloaded');
+          alert('Video playback failed. Please check console logs or ensure the video file is available and the page is served over HTTP.');
+        } else {
+          console.log('Video started successfully.');
         }
-      }
-
-      // Add multiple event listeners to be robust across devices:
-      mobileToggle.addEventListener('click', handleUserToggle, { passive: false });
-      mobileToggle.addEventListener('touchend', function(e){ handleUserToggle(e); }, { passive: false });
-      mobileToggle.addEventListener('pointerup', function(e){ handleUserToggle(e); }, { passive: false });
-
-      // keyboard accessibility
-      mobileToggle.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          handleUserToggle(e);
-        }
-      });
-    }
-
-    // init based on screen size
-    function init() {
-      if (isMobileQuery()) {
-        // mobile: keep video hidden until user taps toggle (CSS default hides it)
-        video.style.display = 'none';
-        setupMobileToggle();
       } else {
-        // desktop: autoplay background
-        if (mobileToggle) mobileToggle.style.display = 'none';
-        loadForDesktop();
-      }
-    }
-
-    init();
-
-    // Re-evaluate when crossing breakpoints (debounced)
-    let rt;
-    window.addEventListener('resize', () => {
-      clearTimeout(rt);
-      rt = setTimeout(() => {
-        try { video.pause(); } catch(e){}
+        // Pause
+        try { video.pause(); } catch(e){ console.warn(e); }
+        setPlayingUI(false);
+        hero.classList.remove('video-playing');
+        // unload sources to free memory
         while (video.firstChild) video.removeChild(video.firstChild);
         video.load();
-        hero.classList.remove('video-playing');
-        init();
-      }, 220);
-    });
+        video.style.display = 'none';
+        console.log('Video paused and unloaded.');
+      }
 
-    // Pause when tab hidden
+      busy = false;
+    }
+
+    // Attach multiple input events for better compatibility
+    mobileToggle.addEventListener('click', handleToggle, { passive:false });
+    mobileToggle.addEventListener('touchend', handleToggle, { passive:false });
+    mobileToggle.addEventListener('pointerup', handleToggle, { passive:false });
+    mobileToggle.addEventListener('keydown', (e) => { if (e.key==='Enter' || e.key===' ') { e.preventDefault(); handleToggle(e); } });
+
+    // Desktop init: autoplay background immediately
+    function initDesktop() {
+      // quick load desktop source and attempt autoplay
+      (async ()=> {
+        while (video.firstChild) video.removeChild(video.firstChild);
+        const s = document.createElement('source');
+        s.src = DESKTOP_SRC;
+        s.type = 'video/mp4';
+        video.appendChild(s);
+        video.src = DESKTOP_SRC;
+        video.load();
+        video.muted = true;
+        try {
+          await video.play();
+          console.log('Desktop autoplay succeeded');
+        } catch (err) {
+          console.warn('Desktop autoplay failed:', err);
+          video.style.display = 'none';
+          hero.style.backgroundImage = "url('images/hero-poster.jpg')";
+          hero.style.backgroundSize = 'cover';
+          hero.style.backgroundPosition = 'center';
+        }
+      })();
+    }
+
+    // Choose initial behavior
+    if (!isMobile()) {
+      // hide mobile toggle UI if present
+      mobileToggle.style.display = 'none';
+      initDesktop();
+    } else {
+      // mobile: keep toggle visible; ensure video hidden initially
+      setPlayingUI(false);
+      video.style.display = 'none';
+      hero.classList.remove('video-playing');
+      console.log('Mobile init: waiting for user gesture to start video.');
+    }
+
+    // helpful note to user/dev
+    console.log('Background video loader initialized. If playback fails, check network tab for 404 or CORS, ensure files exist, and test over HTTP (not file://).');
+
+    // Utility: pause when tab hidden
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         try { video.pause(); } catch(e){}
-      } else if (!isMobileQuery()) {
+      } else if (!isMobile()) {
         video.play().catch(()=>{});
       }
     });
