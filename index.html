@@ -45,25 +45,53 @@
     .hero h1{ font-size:42px; color:#fff; font-weight:700; letter-spacing:.2px; margin-bottom:.5rem; text-shadow:0 8px 30px rgba(2,6,23,0.6) }
     .hero p.lead{ color:rgba(255,255,255,0.95); font-size:1rem; max-width:720px; margin-bottom:1rem; opacity:.98 }
 
-    /* background video (all devices) */
+    /* background video (hidden on mobile until user plays) */
     .hero-bg-video {
       position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
       filter:brightness(.52) contrast(.95);
       pointer-events:none;
       will-change:transform;
+      display:block; /* we'll toggle visibility with JS on mobile */
     }
     /* overlay to keep text readable */
     .hero::after { content:""; position:absolute; inset:0; z-index:1; background: linear-gradient(180deg, rgba(2,6,23,0.22), rgba(2,6,23,0.22)); pointer-events:none; }
 
-    /* Right-card (desktop only) — image removed as requested */
+    /* Mobile play toggle button (visible only on small screens) */
+    .mobile-toggle {
+      display:none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 10%;
+      z-index: 4;
+      background: rgba(2,6,23,0.45);
+      border: 0;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight:700;
+      display:inline-flex;
+      gap:.6rem;
+      align-items:center;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.35);
+    }
+    .mobile-toggle:focus { outline: 3px solid rgba(212,175,55,0.18); outline-offset:2px; }
+
+    /* Right-card (desktop only) */
     .video-card { max-width:360px; margin-left:auto; z-index:2; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border-radius:14px; padding:1rem; color:#fff; box-shadow:0 20px 50px rgba(2,6,23,0.12); }
     .small-stat { display:flex; gap:.75rem; align-items:center; }
 
     /* footer */
     footer{ padding:2.5rem 0; color:var(--muted); font-size:.95rem; }
 
-    /* RESPONSIVE: scale typography/spacing on small screens */
+    /* RESPONSIVE */
     @media (max-width:767px) {
+      /* show toggle button */
+      .mobile-toggle { display:inline-flex; }
+      /* start with hidden video visually (we'll explicitly hide with CSS when not playing) */
+      .hero { background-image: url('images/hero-poster.jpg'); background-size:cover; background-position:center; }
+      .hero::after { background: linear-gradient(180deg, rgba(2,6,23,0.36), rgba(2,6,23,0.34)); }
       .hero .hero-inner { padding:2.25rem 0; }
       .hero h1 { font-size:28px; line-height:1.05; margin-bottom:0.6rem; }
       .hero p.lead { font-size:0.95rem; max-width:100%; }
@@ -71,6 +99,10 @@
       .top-bar .container { padding-left:10px; padding-right:10px; }
       .navbar .navbar-collapse { background: linear-gradient(180deg,#071126,#041023); padding:12px; border-radius:10px; margin-top:8px; }
       .video-card { display:block; }
+      /* when the video is not playing we'll hide it using this class (added/removed by JS) */
+      .hero.video-playing { background-image: none; } /* remove poster when playing */
+      .hero.video-playing .hero-bg-video { display:block; } /* ensure video visible */
+      .hero .hero-bg-video { display:none; } /* default hidden on mobile */
     }
 
     @media (min-width:768px) and (max-width:991px) { .hero h1 { font-size:34px; } }
@@ -139,10 +171,10 @@
   </header>
 
   <!-- HERO -->
-  <section class="hero">
-    <!-- background video (always visible as background) -->
-    <video id="heroBgVideo" class="hero-bg-video" playsinline muted autoplay loop preload="metadata" aria-hidden="true" tabindex="-1">
-      <!-- sources are set dynamically by JS for mobile/desktop optimization -->
+  <section class="hero" id="heroSection">
+    <!-- background video (sources set dynamically by JS) -->
+    <video id="heroBgVideo" class="hero-bg-video" playsinline muted loop preload="metadata" aria-hidden="true" tabindex="-1">
+      <!-- empty; will be filled by JS when desktop loads or mobile user taps play -->
     </video>
 
     <div class="container hero-inner">
@@ -178,9 +210,15 @@
         </div>
       </div>
     </div>
+
+    <!-- Mobile-only play/pause toggle (center-bottom) -->
+    <button id="mobileToggle" class="mobile-toggle" aria-pressed="false" aria-label="Play background video (mobile)">
+      <span id="mobileToggleIcon" class="fa fa-play" aria-hidden="true"></span>
+      <span id="mobileToggleText">Play video</span>
+    </button>
   </section>
 
-  <!-- rest of your content (features/about/projects/footer) -->
+  <!-- rest of content (features/about/projects/footer) -->
   <footer class="border-top">
     <div class="container">
       <div class="row py-4">
@@ -203,56 +241,146 @@
     // set year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ---------- Responsive background video loader ----------
+    // ---------- Background video loader + mobile toggle ----------
     (function(){
       const video = document.getElementById('heroBgVideo');
-      if (!video) return;
+      const hero = document.getElementById('heroSection');
+      const mobileToggle = document.getElementById('mobileToggle');
+      const mobileIcon = document.getElementById('mobileToggleIcon');
+      const mobileText = document.getElementById('mobileToggleText');
 
-      // Filenames - change if your files are elsewhere
-      const DESKTOP_SRC = 'Nivvyaasaa.mp4';           // full-res / desktop video
-      const MOBILE_SRC  = 'Nivvyaasaa-mobile.mp4';    // mobile-optimized video (recommended)
+      if (!video || !hero) return;
 
-      function chooseAndLoad() {
-        const isMobile = window.matchMedia('(max-width:767px)').matches;
-        const src = isMobile ? MOBILE_SRC : DESKTOP_SRC;
+      // filenames (adjust if needed)
+      const DESKTOP_SRC = 'Nivvyaasaa.mp4';
+      const MOBILE_SRC  = 'Nivvyaasaa-mobile.mp4'; // recommended smaller file
 
-        // Clear existing sources
+      // Helper to detect mobile by viewport width
+      const isMobileQuery = () => window.matchMedia('(max-width:767px)').matches;
+
+      // Desktop: auto-load appropriate source immediately (no toggle)
+      function loadForDesktop() {
+        // add source for desktop
         while (video.firstChild) video.removeChild(video.firstChild);
-
-        // Create source element
         const s = document.createElement('source');
-        s.src = src;
+        s.src = DESKTOP_SRC;
         s.type = 'video/mp4';
         video.appendChild(s);
-
         video.load();
 
-        // Try to autoplay (muted)
+        // attempt autoplay (muted)
+        video.muted = true;
         video.play().catch((err) => {
-          console.warn('Hero bg video autoplay blocked or failed:', err);
-          // If autoplay fails, fall back to poster-like background image so content remains visible
+          console.warn('Desktop autoplay blocked:', err);
+          // fallback to poster background if autoplay blocked (keeps page usable)
           video.style.display = 'none';
-          document.querySelector('.hero').style.backgroundImage = "url('images/hero-poster.jpg')";
-          document.querySelector('.hero').style.backgroundSize = 'cover';
-          document.querySelector('.hero').style.backgroundPosition = 'center';
+          hero.style.backgroundImage = "url('images/hero-poster.jpg')";
+          hero.style.backgroundSize = 'cover';
+          hero.style.backgroundPosition = 'center';
         });
       }
 
-      chooseAndLoad();
+      // Mobile: do NOT auto-load the video file. Toggle will load/play on user action.
+      function setupMobileToggle() {
+        if (!mobileToggle) return;
 
-      // re-evaluate on resize (debounced)
+        // Set initial state
+        mobileToggle.setAttribute('aria-pressed', 'false');
+        mobileIcon.className = 'fa fa-play';
+        mobileText.textContent = 'Play video';
+
+        mobileToggle.addEventListener('click', async () => {
+          const pressed = mobileToggle.getAttribute('aria-pressed') === 'true';
+          if (!pressed) {
+            // Start playing: load mobile source and play
+            while (video.firstChild) video.removeChild(video.firstChild);
+            const s = document.createElement('source');
+            // prefer mobile file but fall back to desktop if missing
+            s.src = MOBILE_SRC;
+            s.type = 'video/mp4';
+            video.appendChild(s);
+            video.load();
+
+            // Ensure muted so browsers allow user-initiated play (and background silent is expected)
+            video.muted = true;
+
+            // Make hero forget poster and reveal video
+            hero.classList.add('video-playing');
+            try {
+              await video.play();
+              mobileToggle.setAttribute('aria-pressed', 'true');
+              mobileIcon.className = 'fa fa-pause';
+              mobileText.textContent = 'Pause video';
+            } catch (err) {
+              console.warn('Mobile play failed:', err);
+              // In worst case, revert to poster background
+              hero.classList.remove('video-playing');
+              video.pause();
+              mobileToggle.setAttribute('aria-pressed', 'false');
+            }
+          } else {
+            // Pause & hide video -> show poster background again
+            try { video.pause(); } catch(e){}
+            hero.classList.remove('video-playing');
+            // remove source to free memory / network
+            while (video.firstChild) video.removeChild(video.firstChild);
+            video.load();
+            mobileToggle.setAttribute('aria-pressed', 'false');
+            mobileIcon.className = 'fa fa-play';
+            mobileText.textContent = 'Play video';
+          }
+        });
+
+        // Keyboard activation (Enter/Space)
+        mobileToggle.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            mobileToggle.click();
+          }
+        });
+      }
+
+      // Initialize depending on device width
+      function init() {
+        if (isMobileQuery()) {
+          // mobile: hide video (CSS does), enable toggle
+          video.style.display = 'none';
+          setupMobileToggle();
+        } else {
+          // desktop: show video and autoplay
+          loadForDesktop();
+          // ensure mobile toggle is hidden on larger screens
+          if (mobileToggle) mobileToggle.style.display = 'none';
+        }
+      }
+
+      init();
+
+      // Re-evaluate when resizing across mobile/desktop breakpoints (debounced)
       let rTO;
       window.addEventListener('resize', () => {
         clearTimeout(rTO);
-        rTO = setTimeout(chooseAndLoad, 250);
+        rTO = setTimeout(() => {
+          // reset state: pause and clear sources
+          try { video.pause(); } catch(e){}
+          while (video.firstChild) video.removeChild(video.firstChild);
+          video.load();
+          hero.classList.remove('video-playing');
+
+          // re-init
+          init();
+        }, 220);
       });
 
-      // pause video when tab hidden
+      // pause background video when tab hidden
       document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
           try { video.pause(); } catch(e){}
         } else {
-          try { video.play().catch(()=>{}); } catch(e){}
+          // If desktop and not playing, try to play again
+          if (!isMobileQuery()) {
+            video.play().catch(()=>{});
+          }
         }
       });
     })();
